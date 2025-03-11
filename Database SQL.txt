@@ -1,0 +1,63 @@
+-- Création des tables
+-- employe
+CREATE TABLE IF NOT EXISTS employe
+(
+    email           varchar(64) not null,
+    password        varchar(64) not null,
+    nom             varchar(32) not null,
+    prenom          varchar(32) not null,
+    adresse         varchar(64) not null,
+    fonction        varchar(32) not null,
+    equipe          varchar(32) not null,
+    service         varchar(32) not null,
+    dateRecrutement date        not null,
+    primary key (email)
+);
+
+-- demande
+CREATE TABLE IF NOT EXISTS demande
+(
+    id           bigint unsigned auto_increment,
+    type         varchar(8)  not null,
+    etat         smallint(6) not null,
+    dateDebut    datetime    not null,
+    dateFin      datetime    not null,
+    dateCreation datetime    not null,
+    emailEmploye varchar(64) not null,
+    commentaire varchar(128),
+    constraint id
+        unique (id),
+    constraint demande_employe_email_fk
+        foreign key (emailEmploye) references employe (email),
+    primary key (id)
+);
+
+-- compteur
+CREATE TABLE IF NOT EXISTS compteur
+(
+    emailEmploye  varchar(64) not null,
+    RTT           int         null,
+    congesAnnuels int         null,
+    enfantMalade  int         null,
+    famille       int         null,
+    constraint compteur_email_unique
+        unique (emailEmploye),
+    constraint compteur_employe_email_fk
+        foreign key (emailEmploye) references employe (email),
+    primary key (emailEmploye)
+);
+
+-- Insertiopn des données
+-- DRH
+INSERT INTO employe VALUES ('safaa@iga.ma', 'safaa', 'KHOUMRI', 'Safaa', 'Casablanca', 'leader', 'DREAM', 'RH', '2024-05-01');
+INSERT INTO compteur VALUES ('safaa@iga.ma', 50, 50, 50, 50);
+
+-- RH
+INSERT INTO employe VALUES ('nacera@iga.ma', 'nacera', 'MOUSSAOUI', 'Nacera', 'Casablanca', 'standard', 'DREAM', 'RH', '2024-05-01');
+INSERT INTO compteur VALUES ('nacera@iga.ma', 50, 50, 50, 50);
+
+-- Chef équipe
+INSERT INTO employe VALUES ('badr@iga.ma', 'badr', 'JLIL', 'Badr', 'Casablanca', 'leader', 'DREAM', 'iot', '2024-05-01');
+INSERT INTO compteur VALUES ('badr@iga.ma', 50, 50, 50, 50);
+
+
